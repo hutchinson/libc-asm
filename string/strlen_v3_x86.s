@@ -9,8 +9,10 @@ SYM_NAME:
 	push ebp
 	mov ebp, esp
 
-; IMPLEMENTATION 3
-; 	TODO: Implement using MMX instruction set
+	; This implementation will make use of PCMPEQB which represents
+	; a Single instruction Multiple Data call (SIMD) - part of the
+	; MMX extensions to IA-32
+
 ; END IMPLEMENTATION 3
 
 	mov esp, ebp

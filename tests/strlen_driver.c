@@ -18,8 +18,12 @@ int main(int argc, char **argv)
 	char line[250];
 	unsigned long value = 0;
 
-	if( argc != 2)
+	if( argc != 2 )
+	{
+		printf("Specify [C | v1 | v2 | v3]\n");
 		return -1;
+	} 
+		
 
 	if ( strcmp(argv[1], "C" ) == 0)
 	{

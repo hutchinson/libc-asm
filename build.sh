@@ -74,5 +74,3 @@ mkdir -pv ${DRIVER_DIR}
 # strlen
 Build "strlen" "string" "strlen_driver"
 
-
-
