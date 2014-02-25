@@ -1,10 +1,10 @@
-; strlen_asm.asm is an implementation of strlen.
+; strlen_v2_x86.s - second implementation of strlen_v1_x86
 
 section .text
 
-global _strlen_asm
+global SYM_NAME
 
-_strlen_asm:
+SYM_NAME:
 	; Save the current reference frame pointer and create a new one
 	push ebp
 	mov ebp, esp
@@ -12,23 +12,10 @@ _strlen_asm:
 	; Save edi
 	push edi
 
-; IMPLEMENTATION 1
-;	; Load the address of the first byte of the string
-;	mov eax, [ebp+8]
-;	mov ecx, eax
-;
-;again:
-;	mov dl, [eax]
-;	inc eax
-;	cmp dl, 0
-;	jne again
-;
-;	; Calculate the length of the string
-;	dec eax
-;	sub eax, ecx
-; END IMPLEMENTATION 1
+	; Load the address of the first byte of the string
+	mov eax, [ebp+8]
+	mov ecx, eax
 
-; IMPLEMENTATION 2
 	; This uses the scasb which searches for the first occurence of a byte
 	; that equals AL starting from EDI, each comparision decrases ECX and
 	; increases EDI
@@ -47,14 +34,11 @@ _strlen_asm:
 
 	not ecx
 	lea eax, [ecx-2]
-; END IMPLEMENTATION 2
-
-; IMPLEMENTATION 3
-; TODO: Implement using MMX instruction set
-; END IMPLEMENTATION 3
-
+	
 	; Restore old base frame pointer and return
 	pop edi
+	
 	mov esp, ebp
 	pop ebp
-	ret	
+	ret
+	
