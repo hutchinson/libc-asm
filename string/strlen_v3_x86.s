@@ -1,4 +1,4 @@
-; strlen_v2_x86.s - second implementation of strlen_v1_x86
+; strlen_v3_x86.s - third implementation of strlen_v1_x86
 
 section .text
 
