@@ -5,6 +5,8 @@ This is an educational project which implements functions from the C standard li
 
 The aim is to build a better understanding of how higher level constructs are best represented at the machine level.
 
+See http://en.wikipedia.org/wiki/C_standard_library
+
 Structure
 =========
 For a given libc header e.g. <string.h> there will be a corresponding folder.
