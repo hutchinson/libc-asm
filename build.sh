@@ -79,4 +79,4 @@ mkdir -pv ${DRIVER_DIR}
 # Compile each function into output folder and create the driver program
 # strlen
 Build "strlen" "string" "strlen_driver"
-
+Build "memset" "string" "memset_driver"
