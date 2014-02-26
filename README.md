@@ -1,7 +1,7 @@
 libc-asm
 ========
 
-This is an educational project which implements functions from the C standard library using assemlber.
+This is an educational project which implements functions from the C standard library using assembler.
 
 The aim is to build a better understanding of how higher level constructs are best represented at the machine level.
 
