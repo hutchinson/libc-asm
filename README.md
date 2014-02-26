@@ -31,3 +31,16 @@ and currently has the format:
 
 This is simply to make it easy to test various implementations in the associated driver programs and at the same time
 make it easy enough, if at some point, it gets converted to a full libc implementation.
+
+
+Timing Scores (Rough and Ready)
+===============================
+
+Following timing scores are taken on a Mac Pro 4-core (2.2Ghz Intel i7) and measure only time inside
+function using Instruments with profiling frequency of 1us.
+
+strlen_driver
+system - 0.6ms
+v1 - [incoherent scores, investigating further]
+v2 - 5.0ms
+v3 - 0.2ms

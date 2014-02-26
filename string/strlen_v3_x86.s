@@ -9,13 +9,37 @@ SYM_NAME:
 	push ebp
 	mov ebp, esp
 
-	; This implementation will make use of PCMPEQB which represents
-	; a Single instruction Multiple Data call (SIMD) - part of the
-	; MMX extensions to IA-32
+	; Store pointer to the base of the string
+	mov edx, [ebp+8]
 
-; END IMPLEMENTATION 3
+	; XOR xmm0 with itself == 0
+	pxor xmm0, xmm0
+	mov eax, -16
 
-	mov esp, ebp
+again:
+	add eax, 16
+
+	; SSE4.2 pcmpistri format:
+	; 
+	; Great reference at:
+	; http://www.strchr.com/strcmp_and_strlen_using_sse_4.2
+	;
+	; pcmpistri <reg> <arg1> <arg2>
+	; 	reg - any xmm register
+	; 	arg1 - xmm register or memory
+	;	arg2 - 8-bit control value
+	;
+	;	arg2 = [0-1] = 00 - Source is unisgned bytes
+	;		   [3:2] = 10 - Each Each Aggregation
+	;		   [5:4] = 00 - Positive Polarity
+	;		   [6] = ECX will contain the least significat bit
+	pcmpistri xmm0, [edx + eax], 00001000b
+	jnz again
+
+	; ecx contains the offset from edx+eax where first null was
+	; found
+	add eax, ecx
+
 	pop ebp
 	ret
 	

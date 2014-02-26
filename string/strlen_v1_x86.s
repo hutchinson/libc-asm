@@ -13,11 +13,11 @@ SYM_NAME:
 	mov eax, [ebp+8]
 	mov ecx, eax
 
-again:
+loop_again:
 	mov dl, [eax]
 	inc eax
 	cmp dl, 0
-	jne again
+	jne loop_again
 
 	; Calculate the length of the string
 	dec eax
