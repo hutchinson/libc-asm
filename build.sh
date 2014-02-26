@@ -2,39 +2,45 @@
 
 # Runs build instructions for a given function within a given header.
 function Build() {
+  echo "	Building" $1
 
-	echo "	Building" $1
-	#TODO: Figure out if a leading underscore is always required for all compilers.
-	FUNCTION_NAME="_"$1"_asm"
-	FOLDER=$2
-	DRIVER_PROGRAM=$3".c"
+  #TODO: Find out what rules determine which OS/Compiler variants
+  # need leading underscores.
+  if [ ${OS} == "Linux" ]; then
+    FUNCTION_NAME=$1"_asm"
+  elif [ ${OS} == "Darwin" ]; then
+    FUNCTION_NAME="_"$1"_asm"
+  fi
 
-	CMD="find . -name $1_v[0-9]*_${ARCH}.s"
-	SOURCES=`$CMD`
-	
-	OBJECT_FILES=""
-	for version in $SOURCES
-	do
-		CMD="basename ${version}"
-		ASSEMBLY_FILE=`$CMD`
-		OUTPUT_FILE=${ASSEMBLY_FILE/.s/.o}
+  FOLDER=$2
+  DRIVER_PROGRAM=$3".c"
 
-		# Get the right symbol version.
-		VERSION_STR=${ASSEMBLY_FILE/$1_/}
-		VERSION_STR=${VERSION_STR/_${ARCH}.s/}
+  CMD="find . -name $1_v[0-9]*_${ARCH}.s"
+  SOURCES=`$CMD`
 
-		${AS} -f ${OBJ_FORMAT} ${FOLDER}/${ASSEMBLY_FILE} -o${BUILD_DIR}/${OUTPUT_FILE} -dSYM_NAME=${FUNCTION_NAME}_${VERSION_STR}
-		OBJECT_FILES+=${BUILD_DIR}/${OUTPUT_FILE}" "
-	done
+  OBJECT_FILES=""
+  for version in $SOURCES
+  do
+    CMD="basename ${version}"
+    ASSEMBLY_FILE=`$CMD`
+    OUTPUT_FILE=${ASSEMBLY_FILE/.s/.o}
 
-	DRIVER_OUTPUT_UNIT=${DRIVER_PROGRAM/.c/.o}
+    # Get the right symbol version.
+    VERSION_STR=${ASSEMBLY_FILE/$1_/}
+    VERSION_STR=${VERSION_STR/_${ARCH}.s/}
 
-	# Build the driver program
-	${CC} ${OPTIONS} -c tests/${DRIVER_PROGRAM} -o ${TEST_DIR}/${DRIVER_OUTPUT_UNIT}
+    ${AS} -f ${OBJ_FORMAT} ${FOLDER}/${ASSEMBLY_FILE} -o${BUILD_DIR}/${OUTPUT_FILE} -dSYM_NAME=${FUNCTION_NAME}_${VERSION_STR}
+    OBJECT_FILES+=${BUILD_DIR}/${OUTPUT_FILE}" "
+  done
 
-	# Link together
-	DRIVER_OUTPUT=${DRIVER_PROGRAM/.c/}
-	${CC} ${OPTIONS} ${TEST_DIR}/${DRIVER_OUTPUT_UNIT} ${OBJECT_FILES} -o ${DRIVER_DIR}/${DRIVER_OUTPUT}	
+  DRIVER_OUTPUT_UNIT=${DRIVER_PROGRAM/.c/.o}
+
+  # Build the driver program
+  ${CC} ${OPTIONS} -c tests/${DRIVER_PROGRAM} -o ${TEST_DIR}/${DRIVER_OUTPUT_UNIT}
+
+  # Link together
+  DRIVER_OUTPUT=${DRIVER_PROGRAM/.c/}
+  ${CC} ${OPTIONS} ${TEST_DIR}/${DRIVER_OUTPUT_UNIT} ${OBJECT_FILES} -o ${DRIVER_DIR}/${DRIVER_OUTPUT}
 }
 
 echo "Building"
@@ -47,18 +53,18 @@ AS="nasm"
 CC="clang"
 
 if [ ${OS} == "Darwin" ]; then
-	echo "Building for Mac OS X"
-	OBJ_FORMAT="macho "
+  echo "Building for Mac OS X"
+  OBJ_FORMAT="macho "
 elif [ ${OS} == "Linux" ]; then
-	echo "Building for GNU/Linux"
-	OBJ_FORMAT="elf "
+  echo "Building for GNU/Linux"
+  OBJ_FORMAT="elf "
 fi
 
 OPTIONS="-O3 "
 if [ ${ARCH} == "x86" ]; then
-	OPTIONS+="-m32 "
+  OPTIONS+="-m32 "
 elif [ ${ARCH} == "x86_64" ]; then
-	OPTIONS+="-m64 "
+  OPTIONS+="-m64 "
 fi
 
 echo "Build options: " ${OPTIONS}

@@ -1,6 +1,5 @@
 #include <stdio.h>
-#include <mach/clock.h>
-#include <mach/mach.h>
+#include <string.h>
 
 const char *str1 = "A C String that We're going to count!";
 const char *str2 = "Hello World!";
