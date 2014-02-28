@@ -80,3 +80,4 @@ mkdir -pv ${DRIVER_DIR}
 # strlen
 Build "strlen" "string" "strlen_driver"
 Build "memset" "string" "memset_driver"
+Build "atoi" "stdlib" "atoi_driver"
