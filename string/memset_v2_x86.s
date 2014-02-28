@@ -67,6 +67,8 @@ memset_loop:
 
 if_count_gt4:
 	; We want to set everything
+	xor esi, esi
+	or esi, ebx
 	jmp end_if_count4
 if_count_less4:
 	not edi
@@ -76,15 +78,13 @@ if_count_less4:
 	shl edi, cl
 	; Divide
 	shr ecx, 3
-end_if_count4:
-
 	; Zero out the bits we want to set
 	and esi, edi
-
 	; Set the esi's zero'd out bits to the destination
 	not edi
 	and edi, ebx
-	or esi, edi
+	or esi, edi	
+end_if_count4:
 
 	; Shift the data back into memory
 	mov [eax+ebp], esi
