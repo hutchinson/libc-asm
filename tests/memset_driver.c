@@ -68,19 +68,48 @@ int main(int argc, char **argv)
 	{
 		printf("ASM v2 TEST\n");
 
-		char array[4] = {0xDD, 0xDD, 0xDD, 0xDD};
+#ifdef DEBUG
+		char array1[5] = {'D', 'D', 'D', 'D', '\0'};
 
-		void *returnVal = memset_asm_v2(array, 0xAF, 1);
-		printf("Bytes: %d %p\n", 1, returnVal);
+		void *returnVal = memset_asm_v2(array1, 'A', 1);
+		printf("Bytes: %p %d\n", returnVal, 1);
+		printf("Bytes: %p %d %s\n", returnVal, 1, returnVal);
 
-		returnVal = memset_asm_v2(array, 0xAF, 2);
-		printf("Bytes: %d %p\n", 2, returnVal);
+		returnVal = memset_asm_v2(array1, 'A', 2);
+		printf("Bytes: %p %d\n", returnVal, 2);
+		printf("Bytes: %p %d %s\n", returnVal, 2, returnVal);
 
-		returnVal = memset_asm_v2(array, 0xAF, 3);
-		printf("Bytes: %d %p\n", 3, returnVal);
+		returnVal = memset_asm_v2(array1, 'A', 3);
+		printf("Bytes: %p %d\n", returnVal, 3);		
+		printf("Bytes: %p %d %s\n",returnVal, 3, returnVal);
 
-		returnVal = memset_asm_v2(array, 0xAF, 4);
-		printf("Bytes: %d %p\n", 4, returnVal);
+		returnVal = memset_asm_v2(array1, 'A', 4);
+		printf("Bytes: %p %d\n", returnVal, 4);		
+		printf("Bytes: %p %d %s\n", returnVal, 4, returnVal);
+
+		char array2[11] = {'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', 'D', '\0'};
+		returnVal = memset_asm_v2(array2, 'A', 5);
+		printf("Bytes: %p %d\n", returnVal, 4);		
+		printf("Bytes: %p %d %s\n", returnVal, 4, returnVal);
+#endif
+
+		int i = 0;
+		for(; i <= LOOP_TO; ++i)
+		{
+			void *returnVal = memset_asm_v2(array, i, ARRAY_SIZE);
+			if(returnVal != array)
+			{
+				printf("Incorrect return address, sent %p, got %p\n", array, returnVal);
+			}
+		}
+
+		for(i = 0; i < ARRAY_SIZE; ++i)
+		{
+			if(array[i] != (char)LOOP_TO)
+			{
+				printf("Failed to set %d to %d\n", i, LOOP_TO);
+			}
+		}		
 	}
 	// else if( strcmp(argv[1], "v3" ) == 0)
 	// {

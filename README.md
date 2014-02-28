@@ -7,6 +7,17 @@ The aim is to build a better understanding of how higher level constructs are be
 
 See http://en.wikipedia.org/wiki/C_standard_library
 
+Building and Running
+=====================
+Just run ./build.sh to build all the example code and drivers.
+Known success with:
+	- nasm 2.11.02
+	- clang (Apple version 5.0) LLVM version 3.3svn
+
+Binaries are output to ./out/drivers the naming convention is:
+
+function-name\_driver
+
 Structure
 =========
 For a given libc header e.g. <string.h> there will be a corresponding folder.
