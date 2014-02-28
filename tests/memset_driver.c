@@ -9,6 +9,7 @@
 // count number of bytes to fill
 // returns dest
 extern void* memset_asm_v1(const void* dest, int ch, size_t count);
+extern void* memset_asm_v2(const void* dest, int ch, size_t count);
 
 int main(int argc, char **argv)
 {	
@@ -63,11 +64,24 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	// else if( strcmp(argv[1], "v2" ) == 0 )
-	// {
-	// 	printf("ASM v2 TEST\n");
-	//
-	// }
+	else if( strcmp(argv[1], "v2" ) == 0 )
+	{
+		printf("ASM v2 TEST\n");
+
+		char array[4] = {0xDD, 0xDD, 0xDD, 0xDD};
+
+		void *returnVal = memset_asm_v2(array, 0xAF, 1);
+		printf("Bytes: %d %p\n", 1, returnVal);
+
+		returnVal = memset_asm_v2(array, 0xAF, 2);
+		printf("Bytes: %d %p\n", 2, returnVal);
+
+		returnVal = memset_asm_v2(array, 0xAF, 3);
+		printf("Bytes: %d %p\n", 3, returnVal);
+
+		returnVal = memset_asm_v2(array, 0xAF, 4);
+		printf("Bytes: %d %p\n", 4, returnVal);
+	}
 	// else if( strcmp(argv[1], "v3" ) == 0)
 	// {
 	// 	printf("ASM v3 TEST\n");
