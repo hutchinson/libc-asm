@@ -1,7 +1,8 @@
 ; atoi_v1_asm.s - Anything to integer
 
 ; ASCII codes for minus, 0 and 9
-%define MINUS 45
+%define ASCII_MINUS 45
+%define ASCII_PLUS 43
 %define ASCII_ZERO 48
 %define ASCII_NINE 58
 
@@ -56,14 +57,18 @@ atoi_loop:
 
 	; Conditions
 	; 1). is edi == '-'
-	cmp edi, MINUS
+	cmp edi, ASCII_MINUS
 	je is_minus
 
-	; 2). < 48
+	; 2). is edi == '+'
+	cmp edi, ASCII_PLUS
+	je finish
+
+	; 3). < 48
 	cmp edi, ASCII_ZERO
 	jl on_error
 
-	; 3). > 58
+	; 4). > 58
 	cmp edi, ASCII_NINE
 	jg on_error
 

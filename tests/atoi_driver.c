@@ -4,7 +4,7 @@
 
 extern int atoi_asm_v1(const char* string);
 
-const char numbers[20][10] = {
+const char numbers[21][10] = {
 	{"0"},
 	{"1"},
 	{"2"},
@@ -25,6 +25,7 @@ const char numbers[20][10] = {
 	{"afg"},		// this should return error
 	{"32876"},
 	{"-32876"},
+	{"+43"},	
 };
 
 #define NUM_STRINGS sizeof(numbers)/10
